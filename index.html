@@ -1,57 +1,55 @@
-<html lang="en"><head>
-  <meta charset="UTF-8">
-  <title>RUAYCHOK</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
-    }
-    iframe {
-      border: none;
-      width: 100%;
-      height: 100%;
-    }
-  </style>
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruaychok - รวยโชค มหาเฮง</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #ff4d4d; --secondary: #d4af37; --dark: #1a1a1a; --light: #ffffff; }
+        body { font-family: 'Kanit', sans-serif; background-color: #f0f2f5; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        header { background: linear-gradient(135deg, #b30000 0%, #ff4d4d 100%); width: 100%; padding: 50px 0 80px 0; color: white; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border-bottom-left-radius: 50px; border-bottom-right-radius: 50px; }
+        header h1 { margin: 0; font-size: 2.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .container { max-width: 500px; width: 90%; margin-top: -50px; }
+        .card { background: white; padding: 30px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; margin-bottom: 20px; }
+        .lucky-label { color: #666; font-size: 1.1rem; margin-bottom: 10px; }
+        .number-display { font-size: 5rem; font-weight: 600; color: var(--secondary); margin: 20px 0; text-shadow: 2px 2px 0px #eee; }
+        .btn { background: linear-gradient(to right, #28a745, #218838); color: white; border: none; padding: 15px 40px; font-size: 1.2rem; border-radius: 50px; cursor: pointer; transition: 0.3s; width: 100%; box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3); }
+        .btn:hover { transform: translateY(-3px); }
+        .rolling { animation: pulse 0.1s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(1); opacity: 0.5; } }
+        footer { margin-top: auto; padding: 20px; color: #aaa; font-size: 0.8rem; }
+    </style>
 </head>
-<body cz-shortcut-listen="true">
-  <iframe src="https://ruaychok-phanlamai.online" allowfullscreen=""></iframe>
-
-
-</body>
-<script>
-    const urls = [
-      "https://ruaychok-phanlamai.online"
-    ];
-
-    const statusEl = document.getElementById("status");
-    const frame = document.getElementById("frame");
-
-    function checkFavicon(url, path="/s2kbetlaos/favicon.ico") {
-      return new Promise(resolve => {
-        const origin = new URL(url).origin;
-        const img = new Image();
-        img.onload = () => resolve(true);
-        img.onerror = () => resolve(false);
-        img.src = origin + path + "?t=" + Date.now(); // กัน cache
-      });
-    }
-
-    async function run() {
-      for (let url of urls) {
-        statusEl.textContent = "กำลังเช็ค: " + url;
-        const ok = await checkFavicon(url);
-        if (ok) {
-          statusEl.textContent = "พบ favicon: " + url;
-          frame.src = url;
-          frame.style.display = "block";
-          return;
+<body>
+    <header>
+        <h1>RUAYCHOK</h1>
+        <p>รวยโชค มหาเฮง - เลขนำโชคของคุณวันนี้</p>
+    </header>
+    <div class="container">
+        <div class="card">
+            <div class="lucky-label">เลขมงคลประจำวัน</div>
+            <div id="number" class="number-display">??</div>
+            <button class="btn" onclick="getLucky()">รับโชควันนี้</button>
+            <div style="margin-top:20px; color:#888;" id="message">กดปุ่มเพื่อดูดวงชะตา!</div>
+        </div>
+    </div>
+    <footer>© 2025 Ruaychok | พัฒนาโดย Senlalabeww</footer>
+    <script>
+        function getLucky() {
+            const numElement = document.getElementById('number');
+            const msgElement = document.getElementById('message');
+            numElement.classList.add('rolling');
+            msgElement.innerText = "กำลังคำนวณดวงชะตา...";
+            setTimeout(() => {
+                numElement.classList.remove('rolling');
+                const luckyNum = Math.floor(Math.random() * 100).toString().padStart(2, '0');
+                numElement.innerText = luckyNum;
+                const messages = ["ดวงกำลังรุ่งเรือง!", "เลขนี้มงคลมาก!", "เตรียมรับทรัพย์!", "วันนี้วันดีของคุณ!"];
+                msgElement.innerText = messages[Math.floor(Math.random() * messages.length)];
+            }, 1000);
         }
-      }
-      statusEl.textContent = "ไม่พบลิงก์ไหนที่มี favicon";
-    }
-
-    run();
-  </script></html>
+    </script>
+</body>
+</html>
